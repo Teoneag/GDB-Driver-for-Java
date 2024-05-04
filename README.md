@@ -32,18 +32,18 @@ driver.run();
 
 
 ## ToDo
-- install + play with GDB: 15m -> 30m
 - class
-  - design api: 10m
   - implement: 2h
   - test: 30m
 - CLI app
   - implement: 30m
   - test: 10m
-- set up running with gradle + format README.md: 15m
+- set up running with gradle + format README.md (explain planned vs actual time): 15m
 ## Done: 6h
 - understand task + read resources, similar projects + make plan: 1:30h
 - checkstyle: 10m
+- install + play with GDB: 15m -> 30m
+- design api: 10m
 
 ## ToDo Later
 - fix
