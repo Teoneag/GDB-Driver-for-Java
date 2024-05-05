@@ -82,18 +82,12 @@ setBreakpoint("file_1.c",13);
 
 jvmGdbWrapper.
 
-setBreakHandler(() ->{
-        System.out.
-
-println("Breakpoint hit with backtrace: "+jvmGdbWrapper.getBacktrace());
-        jvmGdbWrapper.
-
-resume();
+setBreakHandler(() -> {
+        System.out.println("Breakpoint hit with backtrace: " + jvmGdbWrapper.getBacktrace());
+        jvmGdbWrapper.resume();
 });
 
-        jvmGdbWrapper.
-
-run();
+jvmGdbWrapper.run();
 ```
 
 ## Task
