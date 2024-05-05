@@ -78,11 +78,13 @@ public class Main {
     private static void gdb() {
         String gdbPath = userInput.next();
         jvmGdbWrapper.setGdbPath(gdbPath);
+        System.out.println("GDB path set to " + gdbPath);
     }
 
     private static void gcc() {
         String gccPath = userInput.next();
         jvmGdbWrapper.setGccPath(gccPath);
+        System.out.println("GCC path set to " + gccPath);
     }
 
     private static void test() {

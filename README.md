@@ -31,11 +31,6 @@ driver.run();
 ```
 
 ## ToDo
-- class
-  - test: 30m
-    - show the output of the debugger
-- CLI app
-  - test: 10m
 - set up running with gradle + upload: 15m
 - extra
   - show output from gdb: 30m
@@ -51,8 +46,10 @@ driver.run();
 - class
   - design api: 10m
   - implement: 2h -> 3h
+  - test: 30m
 - CLI app
   - implement: 30m -> 1h
+  - test: 10m
 
 ## ToDo Later
 - fix
@@ -61,6 +58,7 @@ driver.run();
   - Java version: how to choose
   - project name: driver vs wrapper
   - readme.md: good practices + write ToDo here or use issues
-  - git pipeline
-  - simplify the cli: List<String, Function, String>, all string parsing
-  - make help better, explain default
+- git pipeline
+- simplify the cli: List<String, Function, String>, all string parsing
+- make help better, explain default
+- improve tests

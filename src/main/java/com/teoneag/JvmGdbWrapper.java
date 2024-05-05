@@ -26,7 +26,7 @@ public class JvmGdbWrapper {
     }
 
     /**
-     * Reset the debugger
+     * Reset the debugger to its default state
      */
     public void reset() {
         setPath();
@@ -126,14 +126,6 @@ public class JvmGdbWrapper {
      * Run the debugger
      */
     public void run() {
-        if (filePath == null) {
-            System.out.println("No file loaded! Please load a file before running the debugger!");
-            return;
-        }
-        if (!breakpoints.isEmpty() && breakHandler == null) {
-            System.out.println("There are breakpoints, but no breakpoint handler set! " + "Please set a breakpoint handler or remove the breakpoints before running the debugger!");
-            return;
-        }
         ProcessBuilder pb = new ProcessBuilder(gdbPath, filePath);
         pb.redirectErrorStream(true);
         try {
@@ -243,6 +235,16 @@ public class JvmGdbWrapper {
      */
     public void compile(String filePath, String outputFilePath) {
         runCommand("compiling", gccPath, "-g", "-o", outputFilePath, filePath);
+    }
+
+    public String toString() {
+        return "JvmGdbWrapper{" +
+                "\n breakpoints=" + breakpoints +
+                "\n gdbPath='" + gdbPath + '\'' +
+                "\n gccPath='" + gccPath + '\'' +
+                "\n filePath='" + filePath + '\'' +
+                "\n showOutput=" + showOutput +
+                "\n}";
     }
 
     private void sendCommand(String command) {
