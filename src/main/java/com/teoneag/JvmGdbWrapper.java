@@ -7,11 +7,13 @@ import java.util.Scanner;
 
 public class JvmGdbWrapper {
 
-    private final List<String> breakpoints;
+    private final List<String> breakpoints = new ArrayList<>();
     private String gdbPath;
     private String gccPath;
     private String filePath;
     private Runnable breakHandler;
+    private boolean showOutput;
+
     private Process debuggerProcess;
     private BufferedWriter debuggerInput;
     private BufferedReader debuggerOutput;
@@ -20,13 +22,21 @@ public class JvmGdbWrapper {
      * Constructor for the JvmGdbWrapper class
      */
     public JvmGdbWrapper() {
+        reset();
+    }
+
+    /**
+     * Reset the debugger
+     */
+    public void reset() {
         setPath();
         filePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
-        breakpoints = new ArrayList<>();
+        breakpoints.clear();
         breakHandler = () -> {
             System.out.println("Breakpoint hit with backtrace: " + getBacktrace());
             resume();
         };
+        showOutput = false;
     }
 
     /**
@@ -72,6 +82,15 @@ public class JvmGdbWrapper {
      */
     public void setGccPath(String gccPath) {
         this.gccPath = gccPath;
+    }
+
+    /**
+     * Set the show output flag
+     *
+     * @param showOutput the show output flag
+     */
+    public void setShowOutput(boolean showOutput) {
+        this.showOutput = showOutput;
     }
 
 
@@ -126,23 +145,30 @@ public class JvmGdbWrapper {
 
             sendCommand("run");
 
-            try {
-                String line;
-                while (true) {
-                    line = debuggerOutput.readLine();
-                    if (line == null || line.contains("[Thread")) break;
-                    if (line.contains("hit Breakpoint")) {
-                        debuggerOutput.readLine();
-                        debuggerOutput.readLine();
-                        breakHandler.run();
-                    }
+            String line;
+            while (true) {
+                line = nextLine();
+                if (line == null || line.contains("[Thread")) break;
+                if (line.contains("hit Breakpoint")) {
+                    nextLine();
+                    nextLine();
+                    breakHandler.run();
                 }
-                quit();
-            } catch (IOException e) {
-                System.out.println("Error reading debugger output: " + e.getMessage());
             }
+            quit();
         } catch (IOException e) {
             System.out.println("Error running debugger: " + e.getMessage());
+        }
+    }
+
+    private String nextLine() {
+        try {
+            String line = debuggerOutput.readLine();
+            if (showOutput) System.out.println(line);
+            return line;
+        } catch (IOException e) {
+            System.out.println("Error reading debugger output: " + e.getMessage());
+            return null;
         }
     }
 
