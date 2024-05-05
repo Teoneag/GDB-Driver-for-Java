@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 public class JvmGdbWrapper {
 
-    private final String gdbPath;
-    private final String gccPath;
-    private final List<String> breakpoints = new ArrayList<>();
+    private final List<String> breakpoints;
+    private String gdbPath;
+    private String gccPath;
     private String filePath;
     private Runnable breakHandler;
     private Process debuggerProcess;
@@ -18,24 +18,62 @@ public class JvmGdbWrapper {
 
     /**
      * Constructor for the JvmGdbWrapper class
-     *
-     * @param debuggerFolder the path to the GDB executable
      */
-    public JvmGdbWrapper(String debuggerFolder) {
-        this.gdbPath = debuggerFolder + "\\gdb.exe";
-        this.gccPath = debuggerFolder + "\\gcc.exe";
+    public JvmGdbWrapper() {
+        setPath();
+        filePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
+        breakpoints = new ArrayList<>();
+        breakHandler = () -> {
+            System.out.println("Breakpoint hit with backtrace: " + getBacktrace());
+            resume();
+        };
     }
 
     /**
-     * Constructor for the JvmGdbWrapper class
-     *
-     * @param gdbPath the path to the GDB executable
-     * @param gccPath the path to the GCC executable
+     * Set the path to the debugger folder
      */
-    public JvmGdbWrapper(String gdbPath, String gccPath) {
+    public void setPath() {
+        //noinspection SpellCheckingInspection
+        setPath("C:\\msys64\\ucrt64\\bin");
+    }
+
+    /**
+     * Set the path to the debugger folder
+     *
+     * @param folderPath the path to the debugger folder
+     */
+    public void setPath(String folderPath) {
+        setPath(folderPath + "\\gdb.exe", folderPath + "\\gcc.exe");
+    }
+
+    /**
+     * Set the path to the gdb and gcc executables
+     *
+     * @param gdbPath the path to the gdb executable
+     * @param gccPath the path to the gcc executable
+     */
+    public void setPath(String gdbPath, String gccPath) {
+        setGdbPath(gdbPath);
+        setGccPath(gccPath);
+    }
+
+    /**
+     * Set the path to the gdb executable
+     *
+     * @param gdbPath the path to the gdb executable
+     */
+    public void setGdbPath(String gdbPath) {
         this.gdbPath = gdbPath;
+    }
+
+    /***
+     * Set the path to the gcc executable
+     * @param gccPath the path to the gcc executable
+     */
+    public void setGccPath(String gccPath) {
         this.gccPath = gccPath;
     }
+
 
     /**
      * Load a file
@@ -74,8 +112,7 @@ public class JvmGdbWrapper {
             return;
         }
         if (!breakpoints.isEmpty() && breakHandler == null) {
-            System.out.println("There are breakpoints, but no breakpoint handler set! " +
-                    "Please set a breakpoint handler or remove the breakpoints before running the debugger!");
+            System.out.println("There are breakpoints, but no breakpoint handler set! " + "Please set a breakpoint handler or remove the breakpoints before running the debugger!");
             return;
         }
         ProcessBuilder pb = new ProcessBuilder(gdbPath, filePath);
@@ -139,10 +176,25 @@ public class JvmGdbWrapper {
     }
 
     /**
+     * Test the gdb and gcc versions
+     */
+    public void test() {
+        testGdb();
+        testGcc();
+    }
+
+    /**
      * Prints the gdb version
      */
     public void testGdb() {
         runCommand("testing GDB", gdbPath, "--version");
+    }
+
+    /**
+     * Prints the gcc version
+     */
+    public void testGcc() {
+        runCommand("testing GCC", gccPath, "--version");
     }
 
     /**

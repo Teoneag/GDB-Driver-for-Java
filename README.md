@@ -30,17 +30,20 @@ driver.resume();
 driver.run();
 ```
 
-
 ## ToDo
 - class
   - test: 30m
+    - show the output of the debugger
 - CLI app
-  - implement: 30m
   - test: 10m
-- set up running with gradle + format README.md (explain planned vs actual time): 15m
+- set up running with gradle + upload: 15m
 - extra
   - show output from gdb: 30m
   - relative path
+  - copyright
+  - format README.md (explain planned vs actual time)
+  - info command: print all data
+
 ## Done: 6h
 - understand task + read resources, similar projects + make plan: 1:30h
 - checkstyle: 10m
@@ -48,6 +51,8 @@ driver.run();
 - class
   - design api: 10m
   - implement: 2h -> 3h
+- CLI app
+  - implement: 30m -> 1h
 
 ## ToDo Later
 - fix
@@ -57,3 +62,5 @@ driver.run();
   - project name: driver vs wrapper
   - readme.md: good practices + write ToDo here or use issues
   - git pipeline
+  - simplify the cli: List<String, Function, String>, all string parsing
+  - make help better, explain default
