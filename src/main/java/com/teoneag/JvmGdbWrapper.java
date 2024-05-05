@@ -237,6 +237,11 @@ public class JvmGdbWrapper {
         runCommand("compiling", gccPath, "-g", "-o", outputFilePath, filePath);
     }
 
+    /**
+     * Get the full string representation of the JvmGdbWrapper object
+     *
+     * @return the string
+     */
     public String toString() {
         return "JvmGdbWrapper{" +
                 "\n breakpoints=" + breakpoints +

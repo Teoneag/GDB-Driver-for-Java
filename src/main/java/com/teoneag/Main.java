@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     static final JvmGdbWrapper jvmGdbWrapper = new JvmGdbWrapper();
     static final Scanner userInput = new Scanner(System.in);
-    static String lastLine;
+    static private String lastLine;
 
     /**
      * Main method - CLI application entry point for the JVM-GDB-Wrapper class
