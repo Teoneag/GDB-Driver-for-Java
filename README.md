@@ -14,7 +14,7 @@ Java tool designed to facilitate debugging of native applications using GDB from
 By [Teodor Neagoe](https://github.com/Teoneag)
 
 </div>
-<img src="gifs/JVM-GDB-Wrapper Preview.gif" width="400" alt="JVM-GDB-Wrapper Preview"/>
+<img src="gifs/JVM-GDB-Wrapper Preview.gif" width="800" alt="JVM-GDB-Wrapper Preview"/>
 </div>
 
 ## Getting Started
