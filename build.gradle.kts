@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "com.teoneag"
@@ -16,4 +17,12 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("com.teoneag.Main")
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
 }

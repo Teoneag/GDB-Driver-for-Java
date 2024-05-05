@@ -20,6 +20,7 @@ public class Main {
 
         String option = "";
         while (!option.equals("quit") && !option.equals("10")) {
+            System.out.println();
             lastLine = userInput.nextLine();
             option = lastLine.split(" ")[0];
             lastLine = lastLine.replace(option, "").trim();
@@ -71,20 +72,26 @@ public class Main {
             System.out.println("The path cannot be empty. Please try again.");
             return;
         }
-        jvmGdbWrapper.setPath(lastLine);
+        jvmGdbWrapper.setGdbGccDir(lastLine);
         System.out.println("Folder path set to " + lastLine);
     }
 
     private static void gdb() {
-        String gdbPath = userInput.next();
-        jvmGdbWrapper.setGdbPath(gdbPath);
-        System.out.println("GDB path set to " + gdbPath);
+        if (lastLine.isEmpty()) {
+            System.out.println("The path cannot be empty. Please try again.");
+            return;
+        }
+        jvmGdbWrapper.setGdbPath(lastLine);
+        System.out.println("GDB path set to " + lastLine);
     }
 
     private static void gcc() {
-        String gccPath = userInput.next();
-        jvmGdbWrapper.setGccPath(gccPath);
-        System.out.println("GCC path set to " + gccPath);
+        if (lastLine.isEmpty()) {
+            System.out.println("The path cannot be empty. Please try again.");
+            return;
+        }
+        jvmGdbWrapper.setGccPath(lastLine);
+        System.out.println("GCC path set to " + lastLine);
     }
 
     private static void test() {
@@ -117,7 +124,7 @@ public class Main {
             System.out.println("The path cannot be empty. Please try again.");
             return;
         }
-        jvmGdbWrapper.load(lastLine);
+        jvmGdbWrapper.loadFile(lastLine);
     }
 
     private static void start() {
@@ -160,6 +167,7 @@ public class Main {
                 System.out.println("Breakpoint hit. Press bt to print the backtrace or resume to continue.");
                 String line;
                 while (true) {
+                    System.out.println();
                     line = userInput.nextLine();
                     switch (line) {
                         case "bt" -> backtrace();

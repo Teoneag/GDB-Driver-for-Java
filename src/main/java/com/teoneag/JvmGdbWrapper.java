@@ -29,7 +29,7 @@ public class JvmGdbWrapper {
      * Reset the debugger to its default state
      */
     public void reset() {
-        setPath();
+        setGdbGccDir();
         filePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
         breakpoints.clear();
         breakHandler = () -> {
@@ -42,9 +42,9 @@ public class JvmGdbWrapper {
     /**
      * Set the path to the debugger folder
      */
-    public void setPath() {
+    public void setGdbGccDir() {
         //noinspection SpellCheckingInspection
-        setPath("C:\\msys64\\ucrt64\\bin");
+        setGdbGccDir("C:\\msys64\\ucrt64\\bin");
     }
 
     /**
@@ -52,8 +52,8 @@ public class JvmGdbWrapper {
      *
      * @param folderPath the path to the debugger folder
      */
-    public void setPath(String folderPath) {
-        setPath(folderPath + "\\gdb.exe", folderPath + "\\gcc.exe");
+    public void setGdbGccDir(String folderPath) {
+        setGdbGccDir(folderPath + "\\gdb.exe", folderPath + "\\gcc.exe");
     }
 
     /**
@@ -62,7 +62,7 @@ public class JvmGdbWrapper {
      * @param gdbPath the path to the gdb executable
      * @param gccPath the path to the gcc executable
      */
-    public void setPath(String gdbPath, String gccPath) {
+    public void setGdbGccDir(String gdbPath, String gccPath) {
         setGdbPath(gdbPath);
         setGccPath(gccPath);
     }
@@ -99,7 +99,7 @@ public class JvmGdbWrapper {
      *
      * @param filePath the path to the file
      */
-    public void load(String filePath) {
+    public void loadFile(String filePath) {
         this.filePath = filePath;
     }
 

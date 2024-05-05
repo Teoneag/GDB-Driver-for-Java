@@ -73,9 +73,9 @@ class JvmGdbWrapperTest {
     }
 
     @Test
-    void testLoad() {
+    void testLoadFile() {
         JvmGdbWrapper wrapper = new JvmGdbWrapper();
-        wrapper.load("path");
+        wrapper.loadFile("path");
         assertEquals("""
                 JvmGdbWrapper{
                  breakpoints=[]
@@ -105,7 +105,7 @@ class JvmGdbWrapperTest {
         String gdbPath = findExe("gdb.exe");
         String gccPath = findExe("gcc.exe");
         JvmGdbWrapper wrapper = new JvmGdbWrapper();
-        wrapper.setPath(gdbPath, gccPath);
+        wrapper.setGdbGccDir(gdbPath, gccPath);
 
         String testFile = "src/test/resources/file_1.c";
         String projectPath = System.getProperty("user.dir");
@@ -118,7 +118,7 @@ class JvmGdbWrapperTest {
 
         String exeFile = wrapper.compile(testFilePath);
 
-        wrapper.load(exeFile);
+        wrapper.loadFile(exeFile);
 
         wrapper.setBreakpoint("file_1.c", 13);
         wrapper.setShowOutput(true);
