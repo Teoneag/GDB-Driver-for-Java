@@ -125,6 +125,7 @@ public class Main {
             return;
         }
         jvmGdbWrapper.loadFile(lastLine);
+        System.out.println("Loaded file " + lastLine);
     }
 
     private static void start() {

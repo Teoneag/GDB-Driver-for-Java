@@ -21,7 +21,7 @@ By [Teodor Neagoe](https://github.com/Teoneag)
 ### Prerequisites
 
 - Os: Windows
-- Debugger + Compiler: GDB + GCC
+- Debugger + Compiler: GDB + GCC (MinGW)
 - Language: C
 - Java version: 21
 
@@ -35,22 +35,23 @@ git clone https://github.com/Teoneag/JVM-GDB-Wrapper
 
 2. ### Build & run
 
-```bash
-./gradlew run -q --console=plain
-```
-
-Or alternatively, you can first build it
-
+To build it run
 ```bash
 ./gradlew build
 ```
 
-And then run it directly
-
+And then to run it run
 ```bash
 java -cp build/libs/JVM-GDB-Wrapper-1.0-SNAPSHOT.jar com.teoneag.Main
 ```
 
+Or you can run it directly from gradle (but IO is a bit slower)
+
+```bash
+./gradlew run -q --console=plain
+```
+
+Or you can use IntelliJ IDEA to run it. (open the project and run the Main class)
 ## Usage
 
 If you want to integrade the JVM-GDB-Wrapper in your project, you can use the following code to get started:
@@ -123,7 +124,11 @@ driver.run();
 
 ## ToDo
 - extra
+  - show multiple line backtrace: use some non-blocking input?
+  - add timeout for output
+  - make quit work anytime
   - relative path
+  - better error handling
   - copyright
   - format README.md (explain planned vs actual time)
   - info command: print all data
