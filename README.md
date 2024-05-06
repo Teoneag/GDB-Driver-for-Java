@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div align="center">
 <pre>
      ██╗██╗   ██╗███╗   ███╗       ██████╗ ██████╗ ██████╗       ██╗    ██╗██████╗  █████╗ ██████╗ ██████╗ ███████╗██████╗ 
      ██║██║   ██║████╗ ████║      ██╔════╝ ██╔══██╗██╔══██╗      ██║    ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
@@ -7,13 +7,14 @@
 ╚█████╔╝ ╚████╔╝ ██║ ╚═╝ ██║      ╚██████╔╝██████╔╝██████╔╝      ╚███╔███╔╝██║  ██║██║  ██║██║     ██║     ███████╗██║  ██║
 ╚════╝   ╚═══╝  ╚═╝     ╚═╝       ╚═════╝ ╚═════╝ ╚═════╝        ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝
 </pre>
-<div style="text-align: right;">
+<div align="right">
 
 Java tool designed to facilitate debugging of native applications using GDB from within a JVM environment.
 
 By [Teodor Neagoe](https://github.com/Teoneag)
 
 </div>
+
 <img src="gifs/JVM-GDB-Wrapper Preview.gif" alt="JVM-GDB-Wrapper Preview"/>
 </div>
 

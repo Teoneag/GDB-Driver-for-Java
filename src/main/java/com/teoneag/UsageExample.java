@@ -4,7 +4,7 @@ public class UsageExample {
     public static void main(String[] args) {
         String gdbGccDir = "C:\\msys64\\ucrt64\\bin";
         String sourcePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.c";
-        String executablePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
+        String executablePath;
 
         JvmGdbWrapper jvmGdbWrapper = new JvmGdbWrapper();
 
