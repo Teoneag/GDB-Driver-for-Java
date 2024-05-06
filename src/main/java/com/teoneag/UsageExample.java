@@ -1,27 +1,32 @@
 package com.teoneag;
 
 public class UsageExample {
+    /**
+     * Usage example for the GdbDriver class
+     *
+     * @param args none
+     */
     public static void main(String[] args) {
         String gdbGccDir = "C:\\msys64\\ucrt64\\bin";
         String sourcePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.c";
         String executablePath;
 
-        JvmGdbWrapper jvmGdbWrapper = new JvmGdbWrapper();
+        GdbDriver gdbDriver = new GdbDriver();
 
-        jvmGdbWrapper.setGdbGccDir(gdbGccDir);
+        gdbDriver.setGdbGccDir(gdbGccDir);
 
-        executablePath = jvmGdbWrapper.compile(sourcePath);
+        executablePath = gdbDriver.compile(sourcePath);
 
-        jvmGdbWrapper.loadFile(executablePath);
+        gdbDriver.loadFile(executablePath);
 
-        jvmGdbWrapper.setBreakpoint("file_1.c", 13);
+        gdbDriver.setBreakpoint("file_1.c", 13);
 
-        jvmGdbWrapper.setBreakHandler(() -> {
-            System.out.println("Breakpoint hit with backtrace: " + jvmGdbWrapper.getBacktrace());
-            jvmGdbWrapper.resume();
+        gdbDriver.setBreakHandler(() -> {
+            System.out.println("Breakpoint hit with backtrace: " + gdbDriver.getBacktrace());
+            gdbDriver.resume();
         });
 
-        jvmGdbWrapper.run();
+        gdbDriver.run();
     }
 
 }

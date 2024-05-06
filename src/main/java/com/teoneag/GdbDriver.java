@@ -1,11 +1,18 @@
 package com.teoneag;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class JvmGdbWrapper {
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+
+/**
+ *
+ */
+public class GdbDriver {
 
     private final List<String> breakpoints = new ArrayList<>();
     private String gdbPath;
@@ -21,7 +28,7 @@ public class JvmGdbWrapper {
     /**
      * Constructor for the JvmGdbWrapper class
      */
-    public JvmGdbWrapper() {
+    public GdbDriver() {
         reset();
     }
 
@@ -243,13 +250,7 @@ public class JvmGdbWrapper {
      * @return the string
      */
     public String toString() {
-        return "JvmGdbWrapper{" +
-                "\n breakpoints=" + breakpoints +
-                "\n gdbPath='" + gdbPath + '\'' +
-                "\n gccPath='" + gccPath + '\'' +
-                "\n filePath='" + filePath + '\'' +
-                "\n showOutput=" + showOutput +
-                "\n}";
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
     private void sendCommand(String command) {

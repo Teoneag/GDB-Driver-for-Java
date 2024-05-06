@@ -64,22 +64,22 @@ String gdbGccDir = "C:\\msys64\\ucrt64\\bin";
 String sourcePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.c";
 String executablePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
 
-JvmGdbWrapper jvmGdbWrapper = new JvmGdbWrapper();
+JvmGdbWrapper gdbDriver = new JvmGdbWrapper();
 
-jvmGdbWrapper.setGdbGccDir(gdbGccDir);
+gdbDriver.setGdbGccDir(gdbGccDir);
 
-executablePath =jvmGdbWrapper.compile(sourcePath);
+executablePath =gdbDriver.compile(sourcePath);
 
-jvmGdbWrapper.loadFile(executablePath);
+gdbDriver.loadFile(executablePath);
 
-jvmGdbWrapper.setBreakpoint("file_1.c",13);
+gdbDriver.setBreakpoint("file_1.c",13);
 
-jvmGdbWrapper.setBreakHandler(() -> {
-        System.out.println("Breakpoint hit with backtrace: " + jvmGdbWrapper.getBacktrace());
-        jvmGdbWrapper.resume();
+gdbDriver.setBreakHandler(() -> {
+        System.out.println("Breakpoint hit with backtrace: " + gdbDriver.getBacktrace());
+        gdbDriver.resume();
 });
 
-jvmGdbWrapper.run();
+gdbDriver.run();
 ```
 
 ## Task
@@ -133,10 +133,7 @@ plan project
 
 ### things to read about:
 
-- gradle run
 - simplify the cli: List<String, Function, String>, all string parsing
-- git pipeline
-- copyright
 
 ### refactor
 

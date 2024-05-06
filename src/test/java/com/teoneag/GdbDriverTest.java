@@ -9,7 +9,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JvmGdbWrapperTest {
+class GdbDriverTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -32,13 +32,13 @@ class JvmGdbWrapperTest {
 
     @Test
     void testConstructor() {
-        JvmGdbWrapper wrapper = new JvmGdbWrapper();
+        GdbDriver wrapper = new GdbDriver();
         assertNotNull(wrapper);
     }
 
     @Test
     void testResetAndToString() {
-        JvmGdbWrapper wrapper = new JvmGdbWrapper();
+        GdbDriver wrapper = new GdbDriver();
         assertEquals("""
                 JvmGdbWrapper{
                  breakpoints=[]
@@ -51,7 +51,7 @@ class JvmGdbWrapperTest {
 
     @Test
     void testShowOutput() {
-        JvmGdbWrapper wrapper = new JvmGdbWrapper();
+        GdbDriver wrapper = new GdbDriver();
         wrapper.setShowOutput(true);
         assertEquals("""
                 JvmGdbWrapper{
@@ -74,7 +74,7 @@ class JvmGdbWrapperTest {
 
     @Test
     void testLoadFile() {
-        JvmGdbWrapper wrapper = new JvmGdbWrapper();
+        GdbDriver wrapper = new GdbDriver();
         wrapper.loadFile("path");
         assertEquals("""
                 JvmGdbWrapper{
@@ -88,7 +88,7 @@ class JvmGdbWrapperTest {
 
     @Test
     void testSetBreakpoint() {
-        JvmGdbWrapper wrapper = new JvmGdbWrapper();
+        GdbDriver wrapper = new GdbDriver();
         wrapper.setBreakpoint("file", 1);
         assertEquals("""
                 JvmGdbWrapper{
@@ -104,7 +104,7 @@ class JvmGdbWrapperTest {
     void testRun() {
         String gdbPath = findExe("gdb.exe");
         String gccPath = findExe("gcc.exe");
-        JvmGdbWrapper wrapper = new JvmGdbWrapper();
+        GdbDriver wrapper = new GdbDriver();
         wrapper.setGdbGccDir(gdbPath, gccPath);
 
         String testFile = "src/test/resources/file_1.c";

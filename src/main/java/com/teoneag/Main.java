@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    static final JvmGdbWrapper jvmGdbWrapper = new JvmGdbWrapper();
+    static final GdbDriver gdbDriver = new GdbDriver();
     static final Scanner userInput = new Scanner(System.in);
     static private String lastLine;
 
@@ -72,7 +72,7 @@ public class Main {
             System.out.println("The path cannot be empty. Please try again.");
             return;
         }
-        jvmGdbWrapper.setGdbGccDir(lastLine);
+        gdbDriver.setGdbGccDir(lastLine);
         System.out.println("Folder path set to " + lastLine);
     }
 
@@ -81,7 +81,7 @@ public class Main {
             System.out.println("The path cannot be empty. Please try again.");
             return;
         }
-        jvmGdbWrapper.setGdbPath(lastLine);
+        gdbDriver.setGdbPath(lastLine);
         System.out.println("GDB path set to " + lastLine);
     }
 
@@ -90,13 +90,13 @@ public class Main {
             System.out.println("The path cannot be empty. Please try again.");
             return;
         }
-        jvmGdbWrapper.setGccPath(lastLine);
+        gdbDriver.setGccPath(lastLine);
         System.out.println("GCC path set to " + lastLine);
     }
 
     private static void test() {
         System.out.println("Testing GDB and GCC versions...");
-        jvmGdbWrapper.test();
+        gdbDriver.test();
         System.out.println("Test complete.");
     }
 
@@ -106,7 +106,7 @@ public class Main {
             return;
         }
         System.out.println("Compiling " + lastLine + "...");
-        jvmGdbWrapper.compile(lastLine);
+        gdbDriver.compile(lastLine);
     }
 
     private static void compile() {
@@ -116,7 +116,7 @@ public class Main {
             return;
         }
         System.out.println("Compiling " + args.get(0) + " to " + args.get(1) + "...");
-        jvmGdbWrapper.compile(args.get(0), args.get(1));
+        gdbDriver.compile(args.get(0), args.get(1));
     }
 
     private static void load() {
@@ -124,13 +124,13 @@ public class Main {
             System.out.println("The path cannot be empty. Please try again.");
             return;
         }
-        jvmGdbWrapper.loadFile(lastLine);
+        gdbDriver.loadFile(lastLine);
         System.out.println("Loaded file " + lastLine);
     }
 
     private static void start() {
         System.out.println("Debugging started...");
-        jvmGdbWrapper.run();
+        gdbDriver.run();
         System.out.println("Debugging finished.");
     }
 
@@ -143,28 +143,24 @@ public class Main {
             }
             String fileName = args.get(0);
             int lineNumber = Integer.parseInt(args.get(1));
-            jvmGdbWrapper.setBreakpoint(fileName, lineNumber);
+            gdbDriver.setBreakpoint(fileName, lineNumber);
             System.out.println("Breakpoint set at " + fileName + ":" + lineNumber);
         } catch (NumberFormatException e) {
             System.out.println("The line number must be an integer.");
         }
     }
 
-    private static void resume() {
-        jvmGdbWrapper.resume();
-    }
-
     private static void handle() {
         if (lastLine.equals("auto")) {
-            jvmGdbWrapper.setBreakHandler(() -> {
-                System.out.println("Breakpoint hit with backtrace: " + jvmGdbWrapper.getBacktrace());
-                jvmGdbWrapper.resume();
+            gdbDriver.setBreakHandler(() -> {
+                System.out.println("Breakpoint hit with backtrace: " + gdbDriver.getBacktrace());
+                gdbDriver.resume();
             });
             System.out.println("Auto handler set.");
             return;
         }
         if (lastLine.equals("manual")) {
-            jvmGdbWrapper.setBreakHandler(() -> {
+            gdbDriver.setBreakHandler(() -> {
                 System.out.println("Breakpoint hit. Press bt to print the backtrace or resume to continue.");
                 String line;
                 while (true) {
@@ -173,7 +169,7 @@ public class Main {
                     switch (line) {
                         case "bt" -> backtrace();
                         case "resume" -> {
-                            jvmGdbWrapper.resume();
+                            gdbDriver.resume();
                             return;
                         }
                         default -> System.out.println("Invalid command. Please use 'bt' or 'resume'.");
@@ -187,22 +183,22 @@ public class Main {
     }
 
     private static void backtrace() {
-        System.out.println(jvmGdbWrapper.getBacktrace());
+        System.out.println(gdbDriver.getBacktrace());
     }
 
     private static void reset() {
-        jvmGdbWrapper.reset();
+        gdbDriver.reset();
         System.out.println("Debugger reset.");
     }
 
     private static void output() {
         if (lastLine.equals("on")) {
-            jvmGdbWrapper.setShowOutput(true);
+            gdbDriver.setShowOutput(true);
             System.out.println("Output enabled.");
             return;
         }
         if (lastLine.equals("off")) {
-            jvmGdbWrapper.setShowOutput(false);
+            gdbDriver.setShowOutput(false);
             System.out.println("Output disabled.");
             return;
         }
