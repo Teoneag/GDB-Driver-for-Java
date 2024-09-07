@@ -43,6 +43,80 @@ git clone https://github.com/Teoneag/GDB-Driver
 
 Or you can use IntelliJ IDEA to run it. (open the project and run the Main class)
 
+### 3. Run commands
+
+By default, it has everything set up, and you can run it. But here is a normal flow:
+
+0. See all the available commands
+```bash
+help
+```
+
+1. Set the path to the GDB compiler
+```bash
+init C:\MinGW\bin
+```
+
+2. Test the debugger
+```bash
+test
+```
+
+3. Compile a file
+```bash
+comp res\file_1.c
+```
+
+4. Load the compiled file
+```bash
+load res\file_1.exe
+```
+
+5. Set a breakpoint
+```bash
+break file_1.c 13
+```
+
+6. Run the debugger
+```bash
+start
+```
+As you can see, the debugger stopped at the breakpoint. By default, it showed the backtrace, then it resumed the execution.
+But you may want to manually handle breakpoints. You can do that by 
+
+7. Set the breakpoint handler to manual
+```bash
+handle manual
+```
+Now you can test it again
+```bash
+start
+```
+Now you are inside the breakpoint. You can
+
+8. See the commands available in the breakpoint
+```bash
+help
+```
+
+9. Print the backtrace
+```bash
+backtrace
+```
+
+10. Resume the execution
+```bash
+resume
+```
+
+11. Quit the debugger
+```bash
+exit
+```
+
+12. You have many other commands available. Use help to learn more about them. Have fun!
+
+
 ## Usage
 
 If you want to integrate the GDB-Driver in your project, you can use the following code to get started:
@@ -126,8 +200,11 @@ plan project
 - change the name of the project to GDB-Driver
 - make it public
 - fix readme gif
+- relative path: 15m -> 38m
 
 ## ToDo
+
+- fix compiling (not working on gali's machine)
 
 - check all outputs for all commands
 - custom goodbye message
@@ -146,8 +223,8 @@ plan project
 
 ### Features
 
+- download all requirements automatically (gdb, gcc)
 - compile in the load step
-- relative path
 - cli
   - add custom input to the gdb
   - init: when open the app ask for the path to the gdb, then make a separate settings page

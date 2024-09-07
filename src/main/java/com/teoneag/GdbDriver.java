@@ -3,6 +3,8 @@ package com.teoneag;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,7 +40,7 @@ public class GdbDriver {
     public void reset() {
         // ToDo make def variables from these
         setGdbGccDir("C:\\MinGW\\bin");
-        filePath = "D:\\working\\GDB-Driver\\src\\main\\resources\\file_1.exe";
+        filePath = pathToAbsolute("res\\file_1.exe", true);
         breakHandler = () -> {
             System.out.println("Breakpoint hit with backtrace: " + getBacktrace());
             resume();
@@ -52,19 +54,9 @@ public class GdbDriver {
      * @param folderPath the path to the debugger folder
      */
     public void setGdbGccDir(String folderPath) {
-        setGdbGccDir(folderPath + "\\gdb.exe", folderPath + "\\gcc.exe");
+        setGdbPath(folderPath + "\\gdb.exe");
+        setGccPath(folderPath + "\\gcc.exe");
         System.out.println("Successfully set GDB and GCC paths to " + folderPath);
-    }
-
-    /**
-     * Set the path to the gdb and gcc executables
-     *
-     * @param gdbPath the path to the gdb executable
-     * @param gccPath the path to the gcc executable
-     */
-    private void setGdbGccDir(String gdbPath, String gccPath) {
-        setGdbPath(gdbPath);
-        setGccPath(gccPath);
     }
 
     /**
@@ -96,13 +88,20 @@ public class GdbDriver {
 
 
     /**
-     * Load a file
+     * Load a file to debug
      *
      * @param filePath the path to the file
      */
     public void loadFile(String filePath) {
-        this.filePath = filePath;
-        System.out.println("Successfully loaded file " + filePath);
+        if (!filePath.endsWith(".exe")) {
+            System.out.println("Error: file must end in .exe");
+            return;
+        }
+        String absolutePath = pathToAbsolute(filePath, true);
+        if (absolutePath == null) return;
+
+        this.filePath = absolutePath;
+        System.out.println("Successfully loaded file " + this.filePath);
     }
 
     /**
@@ -230,6 +229,10 @@ public class GdbDriver {
      * @return the binary file path
      */
     public String compile(String filePath) {
+        if (!filePath.endsWith(".c")) {
+            System.out.println("Error: file must end in .c");
+            return null;
+        }
         String outputFilePath = filePath.replace(".c", "");
         compile(filePath, outputFilePath);
         return outputFilePath;
@@ -242,16 +245,19 @@ public class GdbDriver {
      * @param outputFilePath the path to the output file
      */
     public void compile(String filePath, String outputFilePath) {
-        runCommand("compiling", gccPath, "-g", "-o", outputFilePath, filePath);
-    }
+        filePath = pathToAbsolute(filePath, true);
+        outputFilePath = pathToAbsolute(outputFilePath, false);
+        if (filePath == null || outputFilePath == null) return;
 
-    /**
-     * Get the full string representation of the JvmGdbWrapper object
-     *
-     * @return the string
-     */
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+        if (!filePath.endsWith(".c")) {
+            System.out.println("Error: file must end in .c");
+            return;
+        }
+        if (outputFilePath.contains(".")) {
+            System.out.println("Error: output file path must not have extension");
+            return;
+        }
+        runCommand("compiling", gccPath, "-g", "-o", outputFilePath, filePath);
     }
 
     private void sendCommand(String command) {
@@ -292,5 +298,24 @@ public class GdbDriver {
     private String getOutput(Process process) {
         Scanner scanner = new Scanner(process.getInputStream()).useDelimiter("\\A");
         return scanner.hasNext() ? scanner.next() : "";
+    }
+
+    // Returns the absolute path, or null if the file must exist but does not
+    private String pathToAbsolute(String path, boolean hasToExist) {
+        Path givenPath = Paths.get(path);
+
+        // Convert to absolute if it's not already
+        if (!givenPath.isAbsolute()) {
+            String projectRoot = System.getProperty("user.dir");
+            givenPath = Paths.get(projectRoot, path);
+        }
+
+        // Check existence only if required
+        if (hasToExist && !givenPath.toFile().exists()) {
+            System.out.println("Error: file does not exist: " + givenPath);
+            return null;
+        }
+
+        return givenPath.toString();
     }
 }

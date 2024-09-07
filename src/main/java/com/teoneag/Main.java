@@ -9,7 +9,7 @@ public class Main {
      * help
      * init C:\MinGW\bin
      * test
-     * comp D:\working\GDB-Driver\src\main\resources\file_1.c
+     * comp res\file_1.c
      * load D:\working\GDB-Driver\src\main\resources\file_1.exe
      * break file_1.c 13
      * start

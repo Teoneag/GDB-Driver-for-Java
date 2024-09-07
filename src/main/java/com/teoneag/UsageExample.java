@@ -17,7 +17,7 @@ public class UsageExample {
 
         gdbDriver.test();
 
-        String exePath = gdbDriver.compile("D:\\working\\GDB-Driver\\src\\main\\resources\\file_1.c");
+        String exePath = gdbDriver.compile("\\res\\file_1.c");
 
         gdbDriver.loadFile(exePath);
 
