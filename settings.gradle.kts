@@ -1,2 +1,2 @@
-rootProject.name = "JVM-GDB-Wrapper"
+rootProject.name = "GDB-Driver"
 

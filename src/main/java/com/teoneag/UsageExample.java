@@ -3,21 +3,23 @@ package com.teoneag;
 public class UsageExample {
     /**
      * Usage example for the GdbDriver class
+     * The command send to the terminal
+     * gdb file_1.exe
+     * break file_1.c:13
+     * run
+     * bt
+     * continue
      *
      * @param args none
      */
     public static void main(String[] args) {
-        String gdbGccDir = "C:\\msys64\\ucrt64\\bin";
-        String sourcePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.c";
-        String executablePath;
-
         GdbDriver gdbDriver = new GdbDriver();
 
-        gdbDriver.setGdbGccDir(gdbGccDir);
+        gdbDriver.test();
 
-        executablePath = gdbDriver.compile(sourcePath);
+        String exePath = gdbDriver.compile("D:\\working\\GDB-Driver\\src\\main\\resources\\file_1.c");
 
-        gdbDriver.loadFile(executablePath);
+        gdbDriver.loadFile(exePath);
 
         gdbDriver.setBreakpoint("file_1.c", 13);
 
@@ -26,8 +28,10 @@ public class UsageExample {
             gdbDriver.resume();
         });
 
+//        ToDo use in case smth goes wrong
+//        gdbDriver.setShowOutput(true);
+
         gdbDriver.run();
     }
-
 }
 

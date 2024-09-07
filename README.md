@@ -1,11 +1,11 @@
 <div align="center">
 <pre>
-     ██╗██╗   ██╗███╗   ███╗       ██████╗ ██████╗ ██████╗       ██╗    ██╗██████╗  █████╗ ██████╗ ██████╗ ███████╗██████╗ 
-     ██║██║   ██║████╗ ████║      ██╔════╝ ██╔══██╗██╔══██╗      ██║    ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
-     ██║██║   ██║██╔████╔██║█████╗██║  ███╗██║  ██║██████╔╝█████╗██║ █╗ ██║██████╔╝███████║██████╔╝██████╔╝█████╗  ██████╔╝
-██   ██║╚██╗ ██╔╝██║╚██╔╝██║╚════╝██║   ██║██║  ██║██╔══██╗╚════╝██║███╗██║██╔══██╗██╔══██║██╔═══╝ ██╔═══╝ ██╔══╝  ██╔══██╗
-╚█████╔╝ ╚████╔╝ ██║ ╚═╝ ██║      ╚██████╔╝██████╔╝██████╔╝      ╚███╔███╔╝██║  ██║██║  ██║██║     ██║     ███████╗██║  ██║
-╚════╝   ╚═══╝  ╚═╝     ╚═╝       ╚═════╝ ╚═════╝ ╚═════╝        ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝
+ ██████╗ ██████╗ ██████╗     ██████╗ ██████╗ ██╗██╗   ██╗███████╗██████╗ 
+██╔════╝ ██╔══██╗██╔══██╗    ██╔══██╗██╔══██╗██║██║   ██║██╔════╝██╔══██╗
+██║  ███╗██║  ██║██████╔╝    ██║  ██║██████╔╝██║██║   ██║█████╗  ██████╔╝
+██║   ██║██║  ██║██╔══██╗    ██║  ██║██╔══██╗██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
+╚██████╔╝██████╔╝██████╔╝    ██████╔╝██║  ██║██║ ╚████╔╝ ███████╗██║  ██║
+ ╚═════╝ ╚═════╝ ╚═════╝     ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝
 </pre>
 <div align="right">
 
@@ -15,39 +15,27 @@ By [Teodor Neagoe](https://github.com/Teoneag)
 
 </div>
 
-<img src="gifs/JVM-GDB-Wrapper Preview.gif" alt="JVM-GDB-Wrapper Preview"/>
+<img src="gifs/GDB-Driver Preview.gif" alt="GDB-Driver Preview"/>
 </div>
 
 ## Getting Started
 
-### Prerequisites
+### 0. Prerequisites
 
 - Os: Windows
-- Debugger + Compiler: GDB + GCC (MinGW)
-- Language: C
-- Java version: 21
-
-## Download
+- Debugger + Compiler: GDB + GCC (MinGW) for the C language
+- Java version: 22
+- Simple CLI library - for now, it is not published, but you can
+    1. clone the repository from [here](https://github.com/Teoneag/Simple-CLI_Java)
+    2. publish it to your local maven repository
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/Teoneag/JVM-GDB-Wrapper
+git clone https://github.com/Teoneag/GDB-Driver
 ```
 
 ### 2. Build & run
-
-To build it run
-```bash
-./gradlew build
-```
-
-And then to run it run
-```bash
-java -cp build/libs/JVM-GDB-Wrapper-1.0-SNAPSHOT.jar com.teoneag.Main
-```
-
-Or you can run it directly from gradle (but IO is a bit slower)
 
 ```bash
 ./gradlew run -q --console=plain
@@ -57,14 +45,14 @@ Or you can use IntelliJ IDEA to run it. (open the project and run the Main class
 
 ## Usage
 
-If you want to integrate the JVM-GDB-Wrapper in your project, you can use the following code to get started:
+If you want to integrate the GDB-Driver in your project, you can use the following code to get started:
 
 ```java
-String gdbGccDir = "C:\\msys64\\ucrt64\\bin";
-String sourcePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.c";
-String executablePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
+String gdbGccDir = "C:\\MinGW\\bin";
+String sourcePath = "D:\\working\\GDB-Driver\\src\\main\\resources\\file_1.c";
+String executablePath = "D:\\working\\GDB-Driver\\src\\main\\resources\\file_1.exe";
 
-JvmGdbWrapper gdbDriver = new JvmGdbWrapper();
+GdbDriver gdbDriver = new GdbDriver();
 
 gdbDriver.setGdbGccDir(gdbGccDir);
 
@@ -110,7 +98,7 @@ driver.resume();
 driver.run();
 ```
 
-## Plan: 6h
+## Plan: 6h + done
 Chronological order. Planned time -> actual time
 - understand task + read resources, similar projects: 1:30h
 plan project
@@ -128,35 +116,41 @@ plan project
 - README.md
 - Extra
   - show output from gdb: 30m
+- fix stopping (test usageExample)
+- fix start
+- why cd sometimes doesn't work on cmd? + shortcut intelij focus terminal
+- fix hitting manual breakpoint not working
+- in the manual debugger, it shows exit: exits the program
+- make quit work anytime
+- Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+- change the name of the project to GDB-Driver
+- make it public
+- fix readme gif
 
 ## ToDo
 
-### things to read about:
+- check all outputs for all commands
+- custom goodbye message
+- make documentation
 
-- simplify the cli: List<String, Function, String>, all string parsing
+### Refactor
 
-### refactor
+- better error handling
+- improve tests - make them work outside my dir (make the testing somehow download the gdb or mock it)
 
-- reformat project: check best practices for project structure
-  - better error handling
-- improve tests
+### Fix
 
-### fix
-
+- showing all the commands on main (modify the cli or the code here?)
 - show multiple line backtrace: use some non-blocking input?
 - add timeout for output
-- make quit work anytime
-- Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 
-### features
+### Features
 
 - compile in the load step
 - relative path
-- info command: print all data
-- remember last file used
-- make help better, explain default
-
-## ToDo after I'm accepted in the internship
-
-- change the name of the project to GDB-Driver
-- make it public
+- cli
+  - add custom input to the gdb
+  - init: when open the app ask for the path to the gdb, then make a separate settings page
+  - info command: print all data
+  - remember last file used
+  - make help better, explain default

@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 /**
- *
+ * A class that wraps the GDB debugger
  */
 public class GdbDriver {
 
@@ -36,9 +36,9 @@ public class GdbDriver {
      * Reset the debugger to its default state
      */
     public void reset() {
-        setGdbGccDir();
-        filePath = "D:\\working\\JVM-GDB-Wrapper\\src\\main\\resources\\file_1.exe";
-        breakpoints.clear();
+        // ToDo make def variables from these
+        setGdbGccDir("C:\\MinGW\\bin");
+        filePath = "D:\\working\\GDB-Driver\\src\\main\\resources\\file_1.exe";
         breakHandler = () -> {
             System.out.println("Breakpoint hit with backtrace: " + getBacktrace());
             resume();
@@ -48,19 +48,12 @@ public class GdbDriver {
 
     /**
      * Set the path to the debugger folder
-     */
-    public void setGdbGccDir() {
-        //noinspection SpellCheckingInspection
-        setGdbGccDir("C:\\msys64\\ucrt64\\bin");
-    }
-
-    /**
-     * Set the path to the debugger folder
      *
      * @param folderPath the path to the debugger folder
      */
     public void setGdbGccDir(String folderPath) {
         setGdbGccDir(folderPath + "\\gdb.exe", folderPath + "\\gcc.exe");
+        System.out.println("Successfully set GDB and GCC paths to " + folderPath);
     }
 
     /**
@@ -69,7 +62,7 @@ public class GdbDriver {
      * @param gdbPath the path to the gdb executable
      * @param gccPath the path to the gcc executable
      */
-    public void setGdbGccDir(String gdbPath, String gccPath) {
+    private void setGdbGccDir(String gdbPath, String gccPath) {
         setGdbPath(gdbPath);
         setGccPath(gccPath);
     }
@@ -98,6 +91,7 @@ public class GdbDriver {
      */
     public void setShowOutput(boolean showOutput) {
         this.showOutput = showOutput;
+        System.out.println("Show output set to " + showOutput);
     }
 
 
@@ -108,6 +102,7 @@ public class GdbDriver {
      */
     public void loadFile(String filePath) {
         this.filePath = filePath;
+        System.out.println("Successfully loaded file " + filePath);
     }
 
     /**
@@ -116,8 +111,10 @@ public class GdbDriver {
      * @param className  the class name
      * @param lineNumber the line number
      */
+    // ToDo be able to also set breakpoints while the debugger is running
     public void setBreakpoint(String className, int lineNumber) {
         breakpoints.add(className + ":" + lineNumber);
+        System.out.println("Successfully set breakpoint at " + className + ":" + lineNumber);
     }
 
     /**
@@ -127,6 +124,8 @@ public class GdbDriver {
      */
     public void setBreakHandler(Runnable handler) {
         this.breakHandler = handler;
+        System.out.println("Successfully set breakpoint handler.");
+        // ToDo show what's been set to
     }
 
     /**
@@ -144,15 +143,17 @@ public class GdbDriver {
 
             sendCommand("run");
 
-            String line;
-            while (true) {
-                line = nextLine();
-                if (line == null || line.contains("[Thread")) break;
-                if (line.contains("hit Breakpoint")) {
-                    nextLine();
-                    nextLine();
+            String line = "";
+            // remove all the lines before starting the program, so break handler is not called by mistake
+            while (line != null && !line.contains("Starting program")) line = nextLine();
+
+            while (line != null && !line.contains(") exited normally]")) {
+                if (line.contains("Breakpoint ")) {
+                    nextLine(); // remove the int sum = 0 thing
+                    // ToDo show the variables, while the line doesn't contain " at "
                     breakHandler.run();
                 }
+                line = nextLine();
             }
             quit();
         } catch (IOException e) {
@@ -277,7 +278,7 @@ public class GdbDriver {
         try {
             debuggerProcess = pb.start();
             int exitCode = debuggerProcess.waitFor();
-            System.out.println(getOutput(debuggerProcess));
+            if (showOutput) System.out.println(getOutput(debuggerProcess));
             if (exitCode == 0) {
                 System.out.println("Successfully finished " + name + "!");
             } else {
